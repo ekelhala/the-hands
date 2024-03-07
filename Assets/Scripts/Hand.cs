@@ -19,7 +19,7 @@ public class Hand : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        animateHand();
     }
 
     public void setGrip(float value) {

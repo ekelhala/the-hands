@@ -11,6 +11,8 @@ public class HandController : MonoBehaviour
     public InputActionReference gripAction;
     public InputActionReference triggerAction;
 
+    ILogger logger = Debug.unityLogger;
+
     public Hand hand;
     // Start is called before the first frame update
     void Start()

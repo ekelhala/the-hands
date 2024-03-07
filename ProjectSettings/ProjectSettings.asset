@@ -140,7 +140,10 @@ PlayerSettings:
   visionOSBundleVersion: 1.0
   tvOSBundleVersion: 1.0
   bundleVersion: 0.1.0
-  preloadedAssets: []
+  preloadedAssets:
+  - {fileID: 6381063576276778841, guid: f156fdcb6181eacf387d412933a8a186, type: 2}
+  - {fileID: 11400000, guid: 8e3c7dbae2923f0788c1e4ebcf0c6353, type: 2}
+  - {fileID: 7295048912138867709, guid: 9bfe1054de67cb71cbaabc38807e465d, type: 2}
   metroInputSource: 0
   wsaTransparentSwapchain: 0
   m_HolographicPauseOnTrackingLoss: 1
@@ -524,7 +527,7 @@ PlayerSettings:
     m_APIs: 150000000b000000
     m_Automatic: 0
   - m_BuildTarget: LinuxStandaloneSupport
-    m_APIs: 1500000011000000
+    m_APIs: 1100000015000000
     m_Automatic: 0
   m_BuildTargetVRSettings: []
   m_DefaultShaderChunkSizeInMB: 16
