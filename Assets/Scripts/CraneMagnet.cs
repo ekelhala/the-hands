@@ -1,39 +1,31 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class CraneMagnet : MonoBehaviour
 {
-    public float forceFactor = 200f;
-    List<Rigidbody> targets = new List<Rigidbody>();
-    Transform magnetP;
+   private FixedJoint jointReference;
     // Start is called before the first frame update
     void Start()
     {
-         magnetP = GetComponent<Transform>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
-    }
-    void FixedUpdate() {
-    foreach (Rigidbody target in targets)
-    {
-        target.AddForce((magnetP.position - target.position) * forceFactor * Time.fixedDeltaTime);
-    }
-    }
 
-    private void OnTriggerEnter(Collider other) {
-        if(other.CompareTag("Container")){
-            targets.Add(other.GetComponent<Rigidbody>());
-        }
     }
+    void OnCollisionEnter(Collision collision)
+        {
+        if(collision.gameObject.tag == "Container" && !(collision.gameObject.GetComponent<FixedJoint>())) {
+            jointReference = gameObject.AddComponent<FixedJoint>();
+            jointReference.anchor = collision.contacts[0].point;
+            jointReference.connectedBody = collision.rigidbody;
+      }
+   }
 
-    private void OnTriggerExit(Collider other) {
-        if(other.CompareTag("Container")){
-            targets.Remove(other.GetComponent<Rigidbody>());
-        }
-    }
+   public void DetachMagnet() {
+      Destroy(jointReference);
+   }
 }
