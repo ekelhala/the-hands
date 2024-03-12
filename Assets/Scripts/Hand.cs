@@ -10,16 +10,44 @@ public class Hand : MonoBehaviour
     private float gripCurrent, triggerCurrent;
     private const string gripParam = "Grip";
     private const string triggerParam = "Trigger";
+
+    [SerializeField]private GameObject followObject;
+    [SerializeField]private float followSpeed = 30f;
+    [SerializeField]private float rotateSpeed = 100f;
+    [SerializeField]private Vector3 positionOffset;
+    [SerializeField]private Vector3 rotationOffset;
+    private Transform followTarget;
+    private Rigidbody body;
     // Start is called before the first frame update
     void Start()
     {
         animator = GetComponent<Animator>();
+        followTarget = followObject.transform;
+        body = GetComponent<Rigidbody>();
+        body.collisionDetectionMode = CollisionDetectionMode.Continuous;
+        body.interpolation = RigidbodyInterpolation.Interpolate;
+        body.mass = 20f;
+
+        body.position = followTarget.position;
+        body.rotation = followTarget.rotation;
     }
 
     // Update is called once per frame
     void Update()
     {
         animateHand();
+        physicsMove();
+    }
+
+    private void physicsMove() {
+        var posWithOffset = followTarget.position + positionOffset;
+        var distance = Vector3.Distance(posWithOffset, transform.position);
+        body.velocity = (posWithOffset - transform.position).normalized * (followSpeed * distance);
+        
+        var rotWithOffset = followTarget.rotation * Quaternion.Euler(rotationOffset);
+        var q = rotWithOffset * Quaternion.Inverse(body.rotation);
+        q.ToAngleAxis(out float angle, out Vector3 axis);
+        body.angularVelocity = axis * (angle * Mathf.Deg2Rad * rotateSpeed);
     }
 
     public void setGrip(float value) {
